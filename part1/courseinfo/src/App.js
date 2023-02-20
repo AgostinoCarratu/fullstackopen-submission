@@ -5,18 +5,24 @@ const Header = (props) => {
 }
 
 const Content = (props) => {
+
+  const [part1, part2, part3] = props.parts
+
   return (
     <div>
-      <Part part={props.part1} exercises={props.exercises1}/>
-      <Part part={props.part2} exercises={props.exercises2}/>
-      <Part part={props.part3} exercises={props.exercises3}/>
+      <Part part={part1.name} exercises={part1.exercises}/>
+      <Part part={part2.name} exercises={part2.exercises}/>
+      <Part part={part3.name} exercises={part3.exercises}/>
     </div> 
   )
 }
 
 const Total = (props) => {
+
+const [part1, part2, part3] = props.parts
+
   return(
-    <p>Number of exercises {props.exercises1 + props.exercises2 + props.exercises3}</p>
+    <p>Number of exercises {part1.exercises + part2.exercises + part3.exercises }</p>
   )
 }
 
@@ -29,27 +35,29 @@ const Part = (props) => {
 }
 
 const App = () => {
-  const course = 'Half Stack application development'
-  const part1 = {
-    name: 'Fundamentals of React',
-    exercises: 10
-  }
-
-  const part2 = {
-    name: 'Using props to pass data',
-    exercises: 7
-  }
-
-  const part3 = {
-    name: 'State of a component',
-    exercises: 14
+  const course = {
+    name: 'Half Stack application development',
+    parts: [
+    {
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    }
+  ]
   }
 
   return (
     <div>
-      <Header course={course}/>
-      <Content part1={part1.name} exercises1={part1.exercises} part2={part2.name} exercises2={part2.exercises} part3={part3.name} exercises3={part3.exercises} />
-      <Total exercises1={part1.exercises} exercises2={part2.exercises} exercises3={part3.exercises} />
+      <Header course={course.name}/>
+      <Content parts={course.parts} />
+      <Total parts={course.parts} />
     </div>
   )
 }
@@ -58,4 +66,5 @@ export default App
 
 
 
-// Time needed to read the part and do th exercises (plus all the required set up): 1h15m
+// 1.1 to 1.2 Time needed to read the part one and do th exercises (plus all the required set up): 1h15m
+// 1.3 to 1.5 Three pomodoro
