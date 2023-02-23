@@ -66,5 +66,6 @@ export default App
 
 
 
-// 1.1 to 1.2 Time needed to read the part one and do th exercises (plus all the required set up): 1h15m
-// 1.3 to 1.5 Three pomodoro
+
+
+// Total 7 Pomodoros
