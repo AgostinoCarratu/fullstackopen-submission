@@ -1,32 +1,29 @@
 import { useState } from 'react'
 
 
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+//////                                                                        //////
+//////                       COMPONENTS DEFINITIONS                           //////
+//////                                                                        //////
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 
 
-//Header component
 
-const Header = ({ text }) => {
-  return (
-    <div>
-      <h1>{text}</h1> {/*This is the header */}
-    </div>
-  )
-}
+//////////////////////////// HEADER COMPONENT //////////////////////////////////////
+
+const Header = ({ text }) => <div><h1>{text}</h1> {/*This is the header */}</div>
 
 
-//Button component
-//Per il bottone si può pensare di mettere una funzione che può prendere in input la cosa da aggiungere
-const Button = ({onClick, text}) => {
-  return (
-    <button onClick={onClick}>{text}</button>
-  )
-}
+///////////////////////////// BUTTON COMPONENT /////////////////////////////////////
 
+const Button = ({onClick, text}) => <button onClick={onClick}>{text}</button>
 
-//Statistic component (composed by statistic lines)
+////////////////////////////// STATISTIC COMPONENT /////////////////////////////////
+
 const Statistic = ({ data }) => {
 
-  //Innanzitutto calcolo il totale per verificare cosa devo visualizzare
   const total = data.reduce((a, b) => a + b, 0)
 
   if(total === 0){
@@ -37,14 +34,17 @@ const Statistic = ({ data }) => {
     )
   }
 
-  //Here I can use helper functions that elaborates data and then give to each statistic line a result
-  const avg = (data) => {
-    return (total / data.length).toFixed(2).toString()
-  }
+  // Hepler functions
 
-  const positive = (data) => {
-    return (data[0] / total * 100).toFixed(2).toString() + " %"
-  }
+
+  // This function computes the average of a data array
+
+  const avg = (data) => (total / data.length).toFixed(2).toString()
+  
+
+  // This function computes the percentage of positive (good) feedback
+
+  const positive = (data) => (data[0] / total * 100).toFixed(2).toString() + " %"
 
   return (
     <table>
@@ -60,48 +60,37 @@ const Statistic = ({ data }) => {
   )
 }
 
-//Statistic line component
-//Questa ha bisogno di prendersi in ingresso la roba di cui ha bisogno per creare la statistica
-const StatisticLine = ( {valueToShow, text} ) => {
 
-  return (
-    <tr>
-      <td>{text}</td>
-      <td>{valueToShow}</td> 
-    </tr>
-  )
-}
+/////////////////////////////// STATISTIC LINE COMPONENT /////////////////////////////////
+
+const StatisticLine = ( {valueToShow, text} ) => <tr><td>{text}</td><td>{valueToShow}</td></tr>
 
 
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+//////                                                                        //////
+//////                          Main App                                      //////
+//////                                                                        //////
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 
 const App = () => {
+
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
 
-  //Funzioni che servono a cambiare lo stato
-  // Da fare: refactor per creare una sola funzione che si prende in input lo stato da cambiare
+  const increase = (setter, property) => () => setter(property + 1)
 
-  const increaseGood = () => {
-    setGood(good + 1)
-  }
-
-  const increaseNeutral = () => {
-    setNeutral(neutral + 1)
-  }
-
-  const increaseBad = () => {
-    setBad(bad + 1)
-  }
 
   return (
     <div>
       <Header text={"Give Feedback"}/>
-      <Button onClick={increaseGood} text={"Good"}/>
-      <Button onClick={increaseNeutral} text={"Neutral"}/>
-      <Button onClick={increaseBad} text={"Bad"}/>
+      <Button onClick={increase(setGood, good)} text={"Good"}/>
+      <Button onClick={increase(setNeutral, neutral)} text={"Neutral"}/>
+      <Button onClick={increase(setBad, bad)} text={"Bad"}/>
       <Header text={"Statistics"}/>
       <Statistic data={[good, neutral, bad]}/>
     </div>
